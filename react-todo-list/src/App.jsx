@@ -2,6 +2,9 @@ import { useState } from "react"
 import "./styles.css"
 
 export default function App() {
+  const [newItem, setNewItem] = useState("")
+  // it is a state, and a state means being unmutable
+  // unless using the Fn. setNewItem
 
   return (
     <>
@@ -9,6 +12,8 @@ export default function App() {
         <div className="form-row">
           <label htmlFor="item">New Item</label>
           <input 
+            value={newItem} //指定为newItem变量
+            onChange={e => setNewItem(e.target.value)} //将任何input设置为newItem，state改变，react will rerun the App
             type="text" 
             id="item" 
           />
