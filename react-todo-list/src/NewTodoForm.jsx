@@ -1,5 +1,6 @@
 import { useState } from "react"
 
+// 注意：传入props的做法可以利用JS中destructuring方法进一步简化
 export function NewTodoForm(props) {
     const [newItem, setNewItem] = useState("") // default value is ""
 
