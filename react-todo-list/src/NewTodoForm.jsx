@@ -1,18 +1,14 @@
 import { useState } from "react"
 
-export function NewTodoForm() {
+export function NewTodoForm(props) {
     const [newItem, setNewItem] = useState("") // default value is ""
 
     function handleSubmit(e) {
         e.preventDefault() //组织浏览器默认的提交form行为，因为我们想要为submit设置自定义逻辑
 
-        //setTodos函数用于更新todos
-        // setTodos(currentTodos => {
-        //     return [
-        //         ...currentTodos, //
-        //         { id: crypto.randomUUID(), title: newItem, completed: false }, //设置3个属性
-        //     ]
-        // })
+        if (newItem === "") return
+        
+        props.onSubmit(newItem)
 
         setNewItem("") //提交后将输入框状态充值为“”
     }

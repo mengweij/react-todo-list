@@ -6,10 +6,16 @@ export default function App() {
 
   // it is a state, and a state means being unmutable
   // unless using the Fn. setNewItem
-
   const [todos, setTodos] = useState([]) // default value is an empty array
 
-  
+  function addTodo(title) {
+    setTodos(currentTodos => {
+      return [
+        ...currentTodos, //
+        { id: crypto.randomUUID(), title, completed: false }, //设置3个属性，title为传入值
+      ]
+    })
+  }
 
   function toggleTodo(id, completed) {
     setTodos(currentTodos => {
@@ -35,8 +41,11 @@ export default function App() {
 
   return (
     <>
-      {/* include the customized component */}
-      <NewTodoForm />
+      {/* including the customized component,
+      and parse into some fn./para. to realize interaction
+      notice: onSubmit here is not the EventListener but a customized prop name
+      */}
+      <NewTodoForm onSubmit={addTodo} /> 
 
       <h1 className="header">Todo List</h1>
 
