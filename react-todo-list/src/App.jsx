@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import "./styles.css"
 import { NewTodoForm } from "./NewTodoForm"
 import { TodoList } from "./TodoList"
@@ -7,7 +7,19 @@ export default function App() {
 
   // it is a state, and a state means being unmutable
   // unless using the Fn. setNewItem
-  const [todos, setTodos] = useState([]) // default value is an empty array
+  const [todos, setTodos] = useState(() => {
+    const localValue = localStorage.getItem("ITEMS")
+
+    if (localValue == null) return []
+
+    return JSON.parse(localValue)
+  })
+
+  // this hook allows an immediate update of the first para whenever the second para changes
+  // using it to store todo items locally
+  useEffect(() => {
+    localStorage.setItem("ITEMS", JSON.stringify(todos))
+  }, [todos])
 
   function addTodo(title) {
     setTodos(currentTodos => {
@@ -46,7 +58,7 @@ export default function App() {
       and parse into some fn./para. to realize interaction
       notice: onSubmit here is not the EventListener but a customized prop name
       */}
-      <NewTodoForm onSubmit={addTodo} /> 
+      <NewTodoForm onSubmit={addTodo} />
 
       <h1 className="header">Todo List</h1>
 
