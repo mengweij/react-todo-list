@@ -2,13 +2,26 @@ import { useState } from "react"
 import "./styles.css"
 
 export default function App() {
-  const [newItem, setNewItem] = useState("")
+  const [newItem, setNewItem] = useState("") // default value is ""
   // it is a state, and a state means being unmutable
   // unless using the Fn. setNewItem
 
+  const [todos, setTodos] = useState([]) // default value is an empty array
+
+  function handleSubmit(e) {
+    e.preventDefault() //组织浏览器默认的提交form行为，因为我们想要为submit设置自定义逻辑
+
+    //setTodos函数用于更新todos
+    setTodos(currentTodos => {
+      return [
+        ...currentTodos, //
+        { id: crypto.randomUUID(), title: newItem, completed: false}, //设置3个属性
+      ]
+    })
+  }
   return (
     <>
-      <form className="new-item-form">
+      <form onSubmit={handleSubmit} className="new-item-form">
         <div className="form-row">
           <label htmlFor="item">New Item</label>
           <input 
