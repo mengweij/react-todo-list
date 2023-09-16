@@ -18,7 +18,30 @@ export default function App() {
         { id: crypto.randomUUID(), title: newItem, completed: false}, //设置3个属性
       ]
     })
+
+    setNewItem("") //提交后将输入框状态充值为“”
   }
+
+  function toggleTodo(id, completed) {
+    setTodos(currentTodos => {
+      return currentTodos.map(todo => {
+        if (todo.id === id) {
+          //todo.completed = completed是直观的JS做法
+          //要意识到state is unmutable,必须通过setTodos这个fn来进行操作
+          return { ...todo, completed }
+        }
+
+        return todo
+      })
+    })
+  }
+
+  function deleteTodo(id) {
+    setTodos(currentTodos => {
+      return currentTodos.filter(todo => todo.id !== id)
+    })
+  }
+
   return (
     <>
       <form onSubmit={handleSubmit} className="new-item-form">
@@ -35,15 +58,25 @@ export default function App() {
       </form>
       
       <h1 className="header">Todo List</h1>
+
       <ul className="list">
         {todos.map(todo => {
           return (
             <li key={todo.id}>
               <label>
-                <input type="checkbox" checked={todo.completed} />
+                <input 
+                  type="checkbox" 
+                  checked={todo.completed}
+                  onChange={e => toggleTodo(todo.id, e.target.checked)} //fn. to handle the CHECK action
+                 />
                 {todo.title}
               </label>
-              <button className="btn btn-danger">Delete</button>
+              <button 
+                onClick={() => deleteTodo(todo.id)} 
+                className="btn btn-danger"
+              >
+                Delete
+              </button>
             </li>
           )
         })}
