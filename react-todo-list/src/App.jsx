@@ -28,13 +28,15 @@ export default function App() {
         if (todo.id === id) {
           //todo.completed = completed是直观的JS做法
           //要意识到state is unmutable,必须通过setTodos这个fn来进行操作
-          return { ...todo, completed }
+          return {...todo, completed}
         }
 
         return todo
       })
     })
   }
+
+  //console.log(todos)
 
   function deleteTodo(id) {
     setTodos(currentTodos => {
@@ -60,6 +62,7 @@ export default function App() {
       <h1 className="header">Todo List</h1>
 
       <ul className="list">
+        {todos.length === 0 && "No Todos!"}
         {todos.map(todo => {
           return (
             <li key={todo.id}>
